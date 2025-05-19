@@ -1,8 +1,25 @@
 import mongoose from 'mongoose';
 
+const CategorySchema = new mongoose.Schema({
+  categoryId: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
+  image: { type: String }
+});
+
+export const Category = mongoose.model('Category', CategorySchema);
+
+const SubcategorySchema = new mongoose.Schema({
+  subcategoryId: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
+  image:{type:String},
+  categoryId: { type: String, required: true, ref: 'Category' }
+});
+
+export const Subcategory = mongoose.model('Subcategory', SubcategorySchema);
+
 const ServiceSchema = new mongoose.Schema({
-  id: String,
-  title: String,
+  serviceId: { type: String, required: true, unique: true },
+  title: { type: String, required: true },
   review: Number,
   price: Number,
   offerPrice: Number,
@@ -10,22 +27,11 @@ const ServiceSchema = new mongoose.Schema({
   description: [
     {
       title: String,
-      summary: String,
+      summary: String
     }
-  ]
+  ],
+  categoryId: { type: String, required: true, ref: 'Category' },
+  subcategoryId: { type: String, required: true, ref: 'Subcategory' }
 });
 
-const SubcategorySchema = new mongoose.Schema({
-  id: String,
-  name: String,
-  services: [ServiceSchema],
-});
-
-const CategorySchema = new mongoose.Schema({
-  id: { type: String, unique: true },
-  name: String,
-  image: String,
-  subcategories: [SubcategorySchema],
-});
-
-export default mongoose.model('Category',CategorySchema);
+export const Service = mongoose.model('Service', ServiceSchema);

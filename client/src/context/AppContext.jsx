@@ -10,6 +10,7 @@ axios.defaults.withCredentials = true;
 export const AppContextProvider = ({ children }) => {
 
   const [user, setUser] = useState(false);
+  const [isSeller,setIsSeller] = useState(false);
   const [state,setState] = useState('login');
   const [showUserLogin,setShowUserLogin] = useState(false);
   const [cartItems, setCartItems] = useState({});
@@ -91,14 +92,30 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
+  const fetchSellerStatus = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:4000/api/seller/is-auth");
+      if (data.success) {
+        setIsSeller(true);
+      } else {
+        setIsSeller(false);
+      }
+    } catch (error) {
+      setIsSeller(false);
+    }
+  };
+
   useEffect(()=>{
     fetchUser()
+    fetchSellerStatus()
   },[])
   return (
     <AppContext.Provider
       value={{
         user,
         setUser,
+        isSeller,
+        setIsSeller,
         navigate,
         showUserLogin,
         setShowUserLogin,
@@ -107,7 +124,7 @@ export const AppContextProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         updateCartItem,
-        axios,toast,fetchUser
+        axios,toast,fetchUser,fetchSellerStatus
       }}
     >
       {children}

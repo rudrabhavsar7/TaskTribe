@@ -1,11 +1,19 @@
-import {v2 as cloudinary} from "cloudinary";
+// config/cloudinary.js
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 
-const connectCloudinary = async()=>{
-    cloudinary.config({
-        cloud_name : process.env.CLOUDNARY_CLOUD_NAME,
-        api_key: process.env.CLOUDNARY_API_NAME,
-        api_secret: process.env.CLOUDNARY_API_SECRET
-    })
-}
+cloudinary.config({
+  cloud_name: process.env.CLOUDNARY_CLOUD_NAME,
+  api_key: process.env.CLOUDNARY_API_NAME,
+  api_secret: process.env.CLOUDNARY_API_SECRET,
+});
 
-export default connectCloudinary;
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "tasktribe/categories",
+    allowed_formats: ["jpg", "jpeg", "png"],
+  },
+});
+
+export { cloudinary, storage };
