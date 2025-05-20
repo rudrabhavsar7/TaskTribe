@@ -1,6 +1,6 @@
 import logo from "../assets/images/logo.png";
-import cleaning from "../assets/images/cleaning.png";
-import electic from "../assets/images/electic.png";
+import cleaning from "../assets/images/cleaning/vaccumcleaner.png";
+import electic from "../assets/images/electric/electrician.png";
 import menspa from "../assets/images/men/menspa.png";
 import massage from "../assets/images/men/massage.png";
 import womenspa from "../assets/images/women/womenspa.png";
@@ -8,9 +8,35 @@ import womensalon from "../assets/images/women/womensalon.png";
 import womenhair from "../assets/images/women/womenhair.png";
 import ac from "../assets/images/ac/ac.png";
 import wm from "../assets/images/ac/wm.png";
+import women from '../assets/images/service/women.jpg';
+import electician from '../assets/images/service/electician.jpg';
+import clean from '../assets/images/service/clean.jpg';
+import certificate from '../assets/images/benefits/certificate.gif';
+import bestquality from '../assets/images/benefits/bestquality.gif';
+import timeismoney from '../assets/images/benefits/timeismoney.gif';
+import bestcustomer from '../assets/images/benefits/bestcustomer.gif';
+import menfacial from '../assets/images/menscroll/facial.jpg';
+import menhaircut from '../assets/images/menscroll/haircut.jpg';
+import menmassage from '../assets/images/menscroll/massage.jpg';
+import womenfacial from '../assets/images/womenscroll/facial.jpg';
+import womenhaircut from '../assets/images/womenscroll/haircut.jpg';
+import womenmassage from '../assets/images/womenscroll/massage.jpg';
 
 export const images = {
   logo,
+  women,
+  electician,
+  clean,
+  certificate,
+  bestquality,
+  timeismoney,
+  bestcustomer,
+  menfacial,
+  menhaircut,
+  menmassage,
+  womenfacial,
+  womenhaircut,
+  womenmassage
 };
 
 export const category = [

@@ -1,22 +1,33 @@
 // routes/sellerRoutes.js
 import express from "express";
-import multer from "multer";
-import { storage } from "../config/cloudinary.js";
-import Category from "../models/Category.js";
-
-const router = express.Router();
-const upload = multer({ storage });
+import upload from "../config/multer.js";
+import cloudinary from "../config/cloudinary.js"
+import { Category } from "../model/Category.js";
 
 // POST /api/seller/category
 const category = async (req, res) => {
   try {
     const { categoryId, name } = req.body;
-    const image = req.file.path; // Cloudinary image URL
+    const filePath = req.file.path;
+
+    console.log(filePath);
+    let result;
+    try {
+      result = await cloudinary.uploader.upload(filePath, {
+        folder: "tasktribe/categories",
+      });
+      console.log("Cloudinary Upload Result:", result);
+    } catch (uploadErr) {
+      console.error("❌ Cloudinary Upload Failed:", uploadErr);
+      return res.status(500).json({ success: false, message: "Cloudinary upload failed", error: uploadErr.message });
+    }
+    
+    console.log("Upload Success:", result);
 
     const newCategory = await Category.create({
       categoryId,
       name,
-      image,
+      image:result.secure_url,
     });
 
     res.status(201).json({ success: true, category: newCategory });
@@ -25,4 +36,4 @@ const category = async (req, res) => {
   }
 };
 
-export default router;
+export default category;

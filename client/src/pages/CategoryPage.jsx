@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { findCategory } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
@@ -7,9 +7,22 @@ const CategoryPage = () => {
   const { categoryName } = useParams();
   const category = findCategory(categoryName);
 
-  const {addToCart,removeFromCart} = useAppContext();
+  const [counts, setCounts] = useState({});
 
-  const [count, setCount] = React.useState(0);
+  const { addToCart, removeFromCart } = useAppContext();
+
+  const handleAdd = (id) => {
+    setCounts((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
+    addToCart(id);
+  };
+
+  const handleRemove = (id) => {
+    setCounts((prev) => {
+      const newCount = (prev[id] || 0) - 1;
+      return { ...prev, [id]: newCount > 0 ? newCount : 0 };
+    });
+    removeFromCart(id);
+  };
 
   if (!category) {
     return (
@@ -20,7 +33,7 @@ const CategoryPage = () => {
   }
 
   return (
-    <div className="fixed flex flex-col justify-center md:flex-row mt-20 text-white p-4 md:p-6 bg-black h-screen">
+    <div className="fixed flex flex-col justify-center md:flex-row mt-20 text-white p-4 md:p-6 bg-gradient-to-b from-black via-zinc-900 to-black h-screen">
       {/* Left Section */}
       <div className="w-full md:w-1/3 flex justify-center md:justify-center items-center md:mb-20 pr-4">
         <h1 className="text-3xl md:text-5xl font-bold capitalize text-left">
@@ -29,7 +42,7 @@ const CategoryPage = () => {
       </div>
 
       {/* Right Section (Scrollable content) */}
-      <div className="w-full md:w-3/4 overflow-y-auto overflow-x-auto">
+      <div className="w-full md:w-3/4 overflow-y-auto overflow-x-auto p-5 ml-20">
         {category.subcategories.map((subcategory, index) => (
           <div key={index} className="mb-8">
             <h2 className="text-xl md:text-2xl font-semibold mb-3">
@@ -40,11 +53,11 @@ const CategoryPage = () => {
               {subcategory.services.map((service, idx) => (
                 <div
                   key={idx}
-                  className="flex flex-row border p-4 rounded-lg bg-secondary hover:bg-secondary/70 transition-colors"
+                  className="flex flex-row border p-4 rounded-lg text-black bg-white hover:bg-black/70 hover:text-white transition-colors"
                 >
                   <div className="w-2/3">
                     <h3 className="text-lg font-bold mb-1">{service.title}</h3>
-                    <p className="text-sm text-primary mb-1">{service.time}</p>
+                    <p className="text-sm mb-1">{service.time}</p>
                     <p className="text-sm text-yellow-400 mb-2">
                       ₹{service.offerPrice}{" "}
                       <span className="line-through text-gray-400">
@@ -58,28 +71,35 @@ const CategoryPage = () => {
                         </li>
                       ))}
                     </ul>
-                    <div key={idx} className="text-primary">
-                        {count === 0 ? (
-                            <button className="flex items-center justify-center gap-1 bg-black border border-primary md:w-[80px] w-[64px] h-[34px] rounded text-primary font-medium" onClick={() => setCount(1)} >
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M.583.583h2.333l1.564 7.81a1.17 1.17 0 0 0 1.166.94h5.67a1.17 1.17 0 0 0 1.167-.94l.933-4.893H3.5m2.333 8.75a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0m6.417 0a.583.583 0 1 1-1.167 0 .583.583 0 0 1 1.167 0" stroke="#615fff" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                                Add
-                            </button>
-                        ) : (
-                            <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-primary/25 rounded select-none">
-                                <button onClick={() => removeFromCart(service.id)} className="cursor-pointer text-md px-2 h-full" >
-                                    -
-                                </button>
-                                <span className="w-5 text-center">{count}</span>
-                                <button onClick={() => addToCart(service.id)} className="cursor-pointer text-md px-2 h-full" >
-                                    +
-                                </button>
-                            </div>
-                        )}
-                    </div>
                   </div>
-                  
+                    <div key={idx} className="text-primary flex items-center justify-center">
+                      {(counts[service.id] || 0) === 0 ? (
+                        <button
+                          className="flex items-center justify-center gap-1 bg-black border border-primary md:w-[80px] w-[64px] h-[34px] rounded text-primary font-medium hover:bg-white hover:text-black"
+                          onClick={() => handleAdd(service.id)}
+                        >
+                          Add
+                        </button>
+                      ) : (
+                        <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-primary/25 rounded select-none">
+                          <button
+                            onClick={() => handleRemove(service.id)}
+                            className="cursor-pointer text-md px-2 h-full"
+                          >
+                            -
+                          </button>
+                          <span className="w-5 text-center">
+                            {counts[service.id]}
+                          </span>
+                          <button
+                            onClick={() => handleAdd(service.id)}
+                            className="cursor-pointer text-md px-2 h-full"
+                          >
+                            +
+                          </button>
+                        </div>
+                      )}
+                    </div>
                 </div>
               ))}
             </div>

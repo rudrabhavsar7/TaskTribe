@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useAppContext } from "../../context/AppContext";
 
 const AddCategory = () => {
+
+  const {axios} = useAppContext();
   const [formData, setFormData] = useState({
     categoryId: "",
     name: "",
@@ -11,7 +14,7 @@ const AddCategory = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setImage(file);
+    setImageFile(file);
     setPreview(URL.createObjectURL(file));
   };
 
@@ -37,7 +40,6 @@ const AddCategory = () => {
       });
 
       console.log("Success:", res.data);
-      // Reset form if needed
     } catch (err) {
       console.error("Error uploading:", err);
     }
@@ -79,17 +81,17 @@ const AddCategory = () => {
         file:mr-4 file:py-2 file:px-4
         file:rounded-full file:border-0
         file:text-sm file:font-semibold
-        file:bg-blue-50 file:text-blue-700
+        file:bg-blue-50 file:text-secondary
         hover:file:bg-blue-100"
       />
 
       {preview && (
-        <img src={preview} alt="Preview" className="w-full h-48 object-cover rounded" />
+        <img src={preview} alt="Preview" className="w-auto h-20 object-cover rounded" />
       )}
 
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+        className="w-full bg-secondary text-white py-2 rounded hover:bg-secondary/70"
       >
         Submit Category
       </button>

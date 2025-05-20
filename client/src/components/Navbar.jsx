@@ -70,35 +70,20 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 transition-all duration-500 z-50 ${
-        isScrolled
-          ? "bg-black shadow-md text-primary backdrop-blur-lg py-3 md:py-4"
-          : "bg-primary py-4 md:py-6"
-      }`}
+      className="fixed top-0 left-0 w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 transition-all duration-500 z-50 bg-primary py-4 md:py-6"
     >
       {/* Logo */}
       <Link to="/" className="flex items-center gap-2">
         <img
           src={images.logo}
           alt="logo"
-          className={`h-12 ${isScrolled && "invert opacity-80"}`}
+          className={"h-12"}
         />
         <h1 className="text-2xl font-bold">TaskTribe</h1>
       </Link>
       {/* 
       <input type="text" value={ipAddress}/>
       <button onClick={fetchIPInfo}>Click</button> */}
-
-      <svg
-        className={`h-6 w-6 ${isScrolled ? "invert" : ""}`}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        viewBox="0 0 24 24"
-      >
-        <circle cx="11" cy="11" r="8" />
-        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-      </svg>
 
       {/* Desktop Nav */}
       {user ? (
@@ -107,16 +92,12 @@ const Navbar = () => {
             <Link
               key={i}
               to={link.path}
-              className={`group flex flex-col justify-center items-center gap-0.5 ${
-                isScrolled ? "text-primary" : "text-black"
-              }`}
+              className="group flex flex-col justify-center items-center gap-0.5 text-black"
             >
               {link.icon}
               {link.name}
               <div
-                className={`${
-                  isScrolled ? "bg-primary" : "bg-black"
-                } h-0.5 w-0 group-hover:w-full transition-all duration-300`}
+                className={"bg-black h-0.5 w-0 group-hover:w-full transition-all duration-300"}
               />
             </Link>
           ))}
