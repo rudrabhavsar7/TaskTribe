@@ -5,7 +5,7 @@ import cloudinary from "../config/cloudinary.js"
 import { Subcategory } from "../model/Category.js";
 
 // POST /api/seller/category
-const subcategory = async (req, res) => {
+export const subcategory = async (req, res) => {
   try {
     const { subcategoryId, name ,categoryId} = req.body;
     const filePath = req.file.path;
@@ -37,4 +37,14 @@ const subcategory = async (req, res) => {
   }
 };
 
-export default subcategory;
+//GET /api/seller/allsubcategories
+
+export const getAllSubCategories = async (req, res) => {
+  try {
+    const subcategories = await Subcategory.find({});
+    res.status(200).json({ success: true, subcategories });
+  } catch (error) {
+    console.error("Fetch Categories Error:", error.message);
+    res.status(500).json({ success: false, message: "Failed to fetch categories" });
+  }
+};

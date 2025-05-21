@@ -24,12 +24,7 @@ const ServiceSchema = new mongoose.Schema({
   price: Number,
   offerPrice: Number,
   time: String,
-  description: [
-    {
-      title: String,
-      summary: String
-    }
-  ],
+  description: String,
   categoryId: { type: String, required: true, ref: 'Category' },
   subcategoryId: { type: String, required: true, ref: 'Subcategory' }
 });

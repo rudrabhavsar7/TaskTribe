@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import logo from "../assets/images/logo.png";
 import cleaning from "../assets/images/cleaning/vaccumcleaner.png";
 import electic from "../assets/images/electric/electrician.png";
@@ -39,7 +41,7 @@ export const images = {
   womenmassage
 };
 
-export const category = [
+export let category = [
   {
     image: womensalon,
     title: "Women's Salon & Spa",
@@ -150,6 +152,21 @@ export const category = [
     title: "Electrician, Plumber & Carpenter",
   },
 ];
+
+// export const fetchCategories = async (req,res)=>{
+//   try {
+//     const {data} = await axios.get('http://localhost:4000/api/seller/allcategory')
+//     if(data.success){
+//       category = data.categories;
+//       console.log(category);
+//     }else
+//     {
+//       console.error("Error")
+//     }
+//   } catch (error) {
+//      console.error("Error")
+//   }
+// }
 
 
 export const serviceCategories = [
@@ -510,7 +527,3 @@ export const serviceCategories = [
     ],
   },
 ];
-
-export const findCategory = (id)=>{
-  return serviceCategories.find((item) => item.id === id);
-}

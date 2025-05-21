@@ -14,6 +14,9 @@ export const AppContextProvider = ({ children }) => {
   const [state,setState] = useState('login');
   const [showUserLogin,setShowUserLogin] = useState(false);
   const [cartItems, setCartItems] = useState({});
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubCategories] = useState([]);
+  const [services, setServices] = useState([]);
   const navigate = useNavigate();
 
     //add product to cart
@@ -105,9 +108,54 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:4000/api/seller/allcategory");
+      if (data.success) {
+        setCategories(data.categories);
+        console.log(data.categories); // Debug check
+      } else {
+        console.error("Failed to fetch categories");
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error.message);
+    }
+  };
+
+  const fetchSubCategories = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:4000/api/seller/allsubcategory");
+      if (data.success) {
+        setSubCategories(data.subcategories);
+        console.log(data.subcategories); // Debug check
+      } else {
+        console.error("Failed to fetch categories");
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error.message);
+    }
+  };
+
+  const fetchAllService = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:4000/api/seller/allservice");
+      if (data.success) {
+        setServices(data.services);
+        console.log(data.services); // Debug check
+      } else {
+        console.error("Failed to fetch categories");
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error.message);
+    }
+  };
+
   useEffect(()=>{
     fetchUser()
     fetchSellerStatus()
+    fetchCategories()
+    fetchSubCategories()
+    fetchAllService()
   },[])
   return (
     <AppContext.Provider
@@ -124,7 +172,7 @@ export const AppContextProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         updateCartItem,
-        axios,toast,fetchUser,fetchSellerStatus
+        axios,toast,fetchUser,fetchSellerStatus,categories,setCategories,fetchCategories,fetchSubCategories,subcategories,services,setServices,fetchAllService
       }}
     >
       {children}

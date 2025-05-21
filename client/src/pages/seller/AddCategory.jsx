@@ -32,7 +32,7 @@ const AddCategory = () => {
     const data = new FormData();
     data.append("categoryId", formData.categoryId);
     data.append("name", formData.name);
-    data.append("image", imageFile); // `image` must match backend field name
+    data.append("image", imageFile);
 
     try {
       const res = await axios.post("http://localhost:4000/api/seller/category", data, {

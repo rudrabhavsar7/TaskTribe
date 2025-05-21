@@ -5,9 +5,9 @@ import cloudinary from "../config/cloudinary.js"
 import { Service } from "../model/Category.js";
 
 // POST /api/seller/category
-const service = async (req, res) => {
+export const service = async (req, res) => {
   try {
-    const { serviceId, title, review,price,offerPrice,time, } = req.body;
+    const { serviceId, title, review,price,offerPrice,time,description,categoryId,subcategoryId } = req.body;
    
     const newService = await Service.create({
       serviceId,
@@ -31,4 +31,14 @@ const service = async (req, res) => {
   }
 };
 
-export default service;
+//GET /api/seller/allservice
+
+export const getAllService = async (req, res) => {
+  try {
+    const services = await Service.find({});
+    res.status(200).json({ success: true, services });
+  } catch (error) {
+    console.error("Fetch Categories Error:", error.message);
+    res.status(500).json({ success: false, message: "Failed to fetch categories" });
+  }
+};
