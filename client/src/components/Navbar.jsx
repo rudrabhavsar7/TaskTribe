@@ -36,8 +36,8 @@ const Navbar = () => {
 
   const { user,setUser, navigate, setShowUserLogin ,axios,toast} = useAppContext();
   const navLinks = [
-    { name: "Order", icon: <ClipboardList />, path: "/" },
-    { name: "Cart", icon: <ShoppingCart />, path: "/" },
+    { name: "Order", icon: <ClipboardList />, path: "/order" },
+    { name: "Cart", icon: <ShoppingCart />, path: "/cart" },
   ];
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -10,8 +10,6 @@ export const authUser =  (req, res, next) => {
     try {
         const tokenDecode = jwt.verify(token, process.env.JWT_SECRET)
 
-        console.log(tokenDecode);
-        console.log(req.userId);
         if(tokenDecode.userId){
             req.userId = tokenDecode.userId;
         }

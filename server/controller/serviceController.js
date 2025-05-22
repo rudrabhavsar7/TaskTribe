@@ -7,10 +7,11 @@ import { Service } from "../model/Category.js";
 // POST /api/seller/category
 export const service = async (req, res) => {
   try {
-    const { serviceId, title, review,price,offerPrice,time,description,categoryId,subcategoryId } = req.body;
+    const { serviceId,serviceTitle, title, review,price,offerPrice,time,description,categoryId,subcategoryId } = req.body;
    
     const newService = await Service.create({
       serviceId,
+      serviceTitle,
       title,
       review,
       price,

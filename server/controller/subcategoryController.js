@@ -7,7 +7,7 @@ import { Subcategory } from "../model/Category.js";
 // POST /api/seller/category
 export const subcategory = async (req, res) => {
   try {
-    const { subcategoryId, name ,categoryId} = req.body;
+    const { subcategoryId,subcategoryTitle, name ,categoryId} = req.body;
     const filePath = req.file.path;
 
     console.log(filePath);
@@ -26,6 +26,7 @@ export const subcategory = async (req, res) => {
 
     const newSubCategory = await Subcategory.create({
       subcategoryId,
+      subcategoryTitle,
       name,
       image:result.secure_url,
       categoryId

@@ -25,7 +25,7 @@ const Benifits = () => {
   }, []);
 
   return (
-    <div className="min-h-10 flex flex-col bg-primary p-5 md:p-10">
+    <div className="min-h-10 flex flex-col bg-primary p-5 md:p-10 selection:bg-black selection:text-white">
       {/* Responsive Flex Layout */}
       <div className="flex flex-col md:flex-row gap-5 md:gap-0">
         

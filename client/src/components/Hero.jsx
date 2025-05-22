@@ -8,11 +8,7 @@ const Hero = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openService, setOpenService] = useState([]);
 
-  const {
-    navigate,
-    categories,
-    subcategories,
-  } = useAppContext();
+  const { navigate, categories, subcategories } = useAppContext();
 
   const container = useRef();
 
@@ -53,6 +49,13 @@ const Hero = () => {
     setOpenService(service);
     setIsOpen(true);
   };
+
+  const groupedSubcategories = openService.services?.reduce((acc, item) => {
+    const title = item.subcategoryTitle || "Others";
+    if (!acc[title]) acc[title] = [];
+    acc[title].push(item);
+    return acc;
+  }, {});
 
   return (
     <div
@@ -104,30 +107,41 @@ const Hero = () => {
                 </h3>
 
                 <div className="space-y-6">
-                    <h1 className="text-lg font-semibold mb-2">{openService.name}</h1>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    {openService.services?.map((item, i) => (
-                      <button
-                        key={i}
-                        onClick={() =>
-                          navigate(
-                            `/${item.name.toLowerCase().replace(/\s+/g, "-")}`,
-                            {
-                              state: item.name,
-                            }
-                          )
-                        }
-                        className="cursor-pointer flex flex-col items-center text-center hover:shadow-md hover:shadow-white hover:bg-primary hover:text-black p-2 sm:p-3 rounded-2xl text-xs sm:text-sm"
-                      >
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="h-12 w-12 object-contain mb-1"
-                        />
-                        <span className="text-sm">{item.name}</span>
-                      </button>
-                    ))}
-                  </div>
+                  {groupedSubcategories &&
+                    Object.entries(groupedSubcategories).map(
+                      ([title, items]) => (
+                        <div key={title} className="space-y-2">
+                          <h2 className="text-md font-bold text-white">
+                            {title}
+                          </h2>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            {items.map((item, i) => (
+                              <button
+                                key={i}
+                                onClick={() =>
+                                  navigate(
+                                    `/${item.name
+                                      .toLowerCase()
+                                      .replace(/\s+/g, "-")}`,
+                                    {
+                                      state: item.name,
+                                    }
+                                  )
+                                }
+                                className="cursor-pointer flex flex-col items-center text-center hover:shadow-md hover:shadow-white hover:bg-primary hover:text-black p-2 sm:p-3 rounded-2xl text-xs sm:text-sm"
+                              >
+                                <img
+                                  src={item.image}
+                                  alt={item.name}
+                                  className="h-12 w-12 object-contain mb-1"
+                                />
+                                <span className="text-sm">{item.name}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    )}
                 </div>
               </div>
             </div>

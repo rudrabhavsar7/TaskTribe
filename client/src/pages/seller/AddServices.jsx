@@ -19,6 +19,7 @@ const AddService = () => {
 
   const fields = [
     { name: "serviceId", placeholder: "Enter Service ID" },
+    { name: "serviceTitle", placeholder: "Enter Service Title" },
     { name: "title", placeholder: "Enter Title" },
     { name: "review", placeholder: "Enter Review (Number)" },
     { name: "price", placeholder: "Enter Price (₹)" },

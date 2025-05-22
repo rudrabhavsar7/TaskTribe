@@ -6,6 +6,7 @@ const AddSubCategory = () => {
   const { axios } = useAppContext();
   const [formData, setFormData] = useState({
     subcategoryId:"",
+    subcategoryTitle: "",
     categoryId: "",
     name: "",
   });
@@ -32,6 +33,7 @@ const AddSubCategory = () => {
 
     const data = new FormData();
     data.append("subcategoryId", formData.subcategoryId);
+    data.append("subcategoryTitle", formData.subcategoryTitle);
     data.append("categoryId", formData.categoryId);
     data.append("name", formData.name);
     data.append("image", imageFile);
@@ -65,6 +67,15 @@ const AddSubCategory = () => {
           name="subcategoryId"
           placeholder="Enter SubCategory ID"
           value={formData.subcategoryId}
+          onChange={handleChange}
+          className="w-full border px-4 py-2 rounded"
+          required
+        />
+        <input
+          type="text"
+          name="subcategoryTitle"
+          placeholder="Enter SubCategory Title"
+          value={formData.subcategoryTitle}
           onChange={handleChange}
           className="w-full border px-4 py-2 rounded"
           required

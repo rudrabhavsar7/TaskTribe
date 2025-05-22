@@ -1,16 +1,18 @@
 import React from "react";
 import { useAppContext } from "../context/AppContext";
 import { useState } from "react";
+import Cart from "../pages/Cart";
 
 const Login = () => {
 
-    const {showUserLogin,setShowUserLogin,user,setUser,setState,state,axios,toast,navigate,fetchUser} = useAppContext();
+    const {showUserLogin,setShowUserLogin,user,setUser,setState,state,axios,toast,navigate,fetchUser,cartItems} = useAppContext();
 
     const [formData,setFormData] = useState({
       name:'',
       email:'',
       password:'',
-      role:'user'
+      role:'user',
+      cartItems:{}
     });
 
     const handleChange = (e)=>{
@@ -23,7 +25,7 @@ const Login = () => {
       try {
 
         const payload = state === "login"
-          ? { email: formData.email, password: formData.password }
+          ? { email: formData.email, password: formData.password, cartItems: cartItems}
           : formData;
         const {data} = await axios.post(`http://localhost:4000/api/user/${state}`,payload)
 

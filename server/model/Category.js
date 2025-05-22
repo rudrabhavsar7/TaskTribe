@@ -10,6 +10,7 @@ export const Category = mongoose.model('Category', CategorySchema);
 
 const SubcategorySchema = new mongoose.Schema({
   subcategoryId: { type: String, required: true, unique: true },
+  subcategoryTitle: { type: String },
   name: { type: String, required: true },
   image:{type:String},
   categoryId: { type: String, required: true, ref: 'Category' }
@@ -19,6 +20,7 @@ export const Subcategory = mongoose.model('Subcategory', SubcategorySchema);
 
 const ServiceSchema = new mongoose.Schema({
   serviceId: { type: String, required: true, unique: true },
+  serviceTitle:{type:String},
   title: { type: String, required: true },
   review: Number,
   price: Number,

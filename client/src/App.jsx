@@ -1,5 +1,5 @@
 import { useEffect, useState ,} from "react";
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar";
 import { Route, Routes,useLocation } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import CategoryPage from "./pages/CategoryPage";
@@ -12,6 +12,7 @@ import AddCategory from "./pages/seller/AddCategory";
 import SellerLayout from "./pages/seller/SellerLayout";
 import AddSubCategory from "./pages/seller/AddSubCategory";
 import AddServices from "./pages/seller/AddServices";
+import Cart from "./pages/Cart";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
       {showUserLogin ? <Login/>:null}
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/:categoryName" element={<CategoryPage />} />
         <Route path="/seller" element={isSeller ? <SellerLayout/> : <SellerLogin/>}>
           <Route index element={isSeller ? <AddCategory/>:null}/>
