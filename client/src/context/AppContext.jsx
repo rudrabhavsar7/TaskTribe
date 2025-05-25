@@ -18,6 +18,7 @@ export const AppContextProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubCategories] = useState([]);
   const [services, setServices] = useState([]);
+  const [catServices, setCatServices] = useState([]);
   const [serviceDate,setServiceDate] =useState([]);
   const [serviceTime,setServiceTime] =useState([]);
   const navigate = useNavigate();
@@ -250,6 +251,22 @@ const getCartSummary = () => {
     }
   };
 
+  const fetchServicesBySubcategoryId = async (subcategoryId) => {
+  try {
+    const { data } = await axios.get(
+      `http://localhost:4000/api/seller/services?subcategoryId=${subcategoryId}`
+    );
+    if (data.success) {
+      setCatServices(data.services);
+      console.log(data.services); // Debug check
+    } else {
+      console.error("Failed to fetch services by subcategory");
+    }
+  } catch (error) {
+    console.error("Error fetching services by subcategory:", error.message);
+  }
+};
+
   const updateCartItems = async (updatedCart) => {
     if (!user) {
       console.log("User not logged in, not updating cart items");
@@ -340,7 +357,10 @@ const getCartSummary = () => {
         serviceDate,
         serviceTime,
         setServiceDate,
-        setServiceTime
+        setServiceTime,
+        fetchServicesBySubcategoryId,
+        setCatServices,
+        catServices
       }}
     >
       {children}

@@ -23,6 +23,7 @@ import menmassage from '../assets/images/menscroll/massage.jpg';
 import womenfacial from '../assets/images/womenscroll/facial.jpg';
 import womenhaircut from '../assets/images/womenscroll/haircut.jpg';
 import womenmassage from '../assets/images/womenscroll/massage.jpg';
+import notification from '../assets/images/subscribe/notification.gif'
 
 export const images = {
   logo,
@@ -38,7 +39,8 @@ export const images = {
   menmassage,
   womenfacial,
   womenhaircut,
-  womenmassage
+  womenmassage,
+  notification 
 };
 
 export let category = [

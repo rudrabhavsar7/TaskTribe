@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
-// import { category,fetchCategories } from "../assets/assets.js";
+import React, { useState, useRef } from "react";
 import { useAppContext } from "../context/AppContext.jsx";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -8,7 +7,13 @@ const Hero = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openService, setOpenService] = useState([]);
 
-  const { navigate, categories, subcategories } = useAppContext();
+  const {
+    navigate,
+    categories,
+    subcategories,
+    services,
+    setCatServices,
+  } = useAppContext();
 
   const container = useRef();
 
@@ -37,17 +42,32 @@ const Hero = () => {
       console.error("Subcategories not loaded or invalid");
       return;
     }
-    // Filter the subcategories matching the clicked category
+
     const matchedSubcategories = subcategories.filter(
       (item) => item.categoryId === service.categoryId
     );
 
-    // Assign matched subcategories as services to the selected service object
     service.services = matchedSubcategories;
 
-    // Open modal
     setOpenService(service);
     setIsOpen(true);
+  };
+
+  const handleSubcategoryClick = (subcategory) => {
+    // Filter main services by selected subcategory
+    const filtered = services.filter(
+      (service) => service.subcategoryId === subcategory.subcategoryId
+    );
+
+    // Update catServices state in context
+    setCatServices(filtered);
+
+    // Navigate to the category page (subcategory name slugified)
+    navigate(`/${subcategory.name.toLowerCase().replace(/\s+/g, "-")}`, {
+      state: subcategory.name,
+    });
+
+    setIsOpen(false);
   };
 
   const groupedSubcategories = openService.services?.reduce((acc, item) => {
@@ -118,16 +138,7 @@ const Hero = () => {
                             {items.map((item, i) => (
                               <button
                                 key={i}
-                                onClick={() =>
-                                  navigate(
-                                    `/${item.name
-                                      .toLowerCase()
-                                      .replace(/\s+/g, "-")}`,
-                                    {
-                                      state: item.name,
-                                    }
-                                  )
-                                }
+                                onClick={() => handleSubcategoryClick(item)}
                                 className="cursor-pointer flex flex-col items-center text-center hover:shadow-md hover:shadow-white hover:bg-primary hover:text-black p-2 sm:p-3 rounded-2xl text-xs sm:text-sm"
                               >
                                 <img

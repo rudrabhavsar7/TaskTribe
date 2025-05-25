@@ -16,6 +16,7 @@ import Cart from "./pages/Cart";
 import ServiceSlot from "./components/ServiceSlot";
 import AddAddress from "./components/AddAddress";
 import Order from "./pages/order";
+import AdminOrders from "./pages/seller/AdminOrders";
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
           <Route index element={isSeller ? <AddCategory/>:null}/>
           <Route path='subcategories' element= {<AddSubCategory/>} />
           <Route path='services' element={<AddServices/>}/>
+          <Route path='order' element={<AdminOrders/>}/>
         </Route>
       </Routes>
     </>

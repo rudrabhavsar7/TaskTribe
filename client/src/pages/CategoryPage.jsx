@@ -4,15 +4,15 @@ import { useAppContext } from "../context/AppContext";
 
 const CategoryPage = () => {
   const { categoryName } = useParams();
-  const { addToCart, removeFromCart, services, cartItems } = useAppContext();
+  const { addToCart, removeFromCart, catServices, cartItems } = useAppContext();
 
   const findCategory = (id) => {
-    return services.find((item) => item.subcategoryId === id);
+    return catServices.find((item) => item.subcategoryId === id);
   };
 
   const category = findCategory(categoryName);
 
-  const groupedServices = services.reduce((acc, service) => {
+  const groupedServices = catServices.reduce((acc, service) => {
     const title = service.serviceTitle?.trim() || "Others";
     if (!acc[title]) acc[title] = [];
     acc[title].push(service);
@@ -30,7 +30,7 @@ const CategoryPage = () => {
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gradient-to-b from-black via-zinc-900 to-black text-white">
       {/* Left Section */}
-      <div className="md:w-1/3 w-full p-6 flex items-center justify-center sticky top-0 md:h-screen z-10 md:mt-0 mt-20">
+      <div className="md:w-1/3 w-full p-6 flex items-center justify-center sticky top-0 md:h-screen z-10 md:mt-0 mt-25 bg-white text-black rounded-br-2xl">
         <h1 className="text-3xl md:text-5xl font-bold capitalize text-center md:text-right">
           {categoryName.toLowerCase().replaceAll("-", " ")}
         </h1>

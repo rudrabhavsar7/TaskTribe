@@ -69,7 +69,7 @@ const Navbar = () => {
         <img
           src={images.logo}
           alt="logo"
-          className={"h-12"}
+          className={"h-15"}
         />
         <h1 className="text-2xl font-bold">TaskTribe</h1>
       </Link>

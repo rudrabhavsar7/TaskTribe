@@ -17,7 +17,7 @@ const Cart = () => {
     axios,
     serviceDate,
     serviceTime,
-    setCartItems
+    setCartItems,
   } = useAppContext();
 
   const [address, setAddress] = useState([]);
@@ -25,12 +25,9 @@ const Cart = () => {
   const [selectedAddress, setSelectedAddress] = useState([]);
   const [paymentMode, setPaymentMode] = useState("Cash");
 
-  console.log(paymentMode);
-
   const getUserAddress = async () => {
     try {
       const { data } = await axios.get("http://localhost:4000/api/address/get");
-      console.log(data);
       if (data.success) {
         setAddress(data.addresses);
         setSelectedAddress(data.addresses[0]);
@@ -48,7 +45,7 @@ const Cart = () => {
 
   if (!cartItems || Object.keys(cartItems).length === 0) {
     return (
-      <div className="text-white text-center mt-10">
+      <div className="text-white text-center mt-10 text-2xl">
         <h1>Your cart is empty</h1>
       </div>
     );
@@ -68,52 +65,51 @@ const Cart = () => {
     }
   });
 
-const handleCheckout = async () => {
-  if (paymentMode === "Cash") {
-
+  const handleCheckout = async () => {
+    if (paymentMode === "Cash") {
       try {
-        const items = Object.entries(cartItems).map((item) => ({
-        serviceId: item[1].serviceId,
-        serviceName: item[1].serviceName,
-        quantity:item[1].quantity
-      }));
+        const items = Object.entries(cartItems).map(([_, val]) => ({
+          serviceId: val.serviceId,
+          serviceName: val.serviceName,
+          quantity: val.quantity,
+        }));
 
-      console.log(items);
+        const { data } = await axios.post(
+          "http://localhost:4000/api/order/cash",
+          {
+            userId: user._id,
+            items,
+            scheduledDate: serviceDate.date,
+            scheduledTime: serviceTime,
+            address: selectedAddress._id,
+          }
+        );
 
-      const { data } = await axios.post("http://localhost:4000/api/order/cash", {
-        userId: user._id,
-        items,
-        scheduledDate: serviceDate.date,
-        scheduledTime: serviceTime,
-        address: selectedAddress._id,
-      });
-
-      if (data.success) {
-        toast.success(data.message);
-        setCartItems({});
-        navigate("/order");
-      } else {
-        toast.error(data.message);
+        if (data.success) {
+          toast.success(data.message);
+          setCartItems({});
+          navigate("/order");
+        } else {
+          toast.error(data.message);
+        }
+      } catch (err) {
+        toast.error("Checkout failed. Please try again.");
+        console.error(err);
       }
-    } catch (err) {
-      toast.error("Checkout failed. Please try again.");
-      console.error(err);
     }
-  }
-};
-
+  };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-gradient-to-b from-black via-zinc-900 to-black text-white">
-      {/* Left Heading */}
-      <div className="lg:w-1/4 w-full p-6 flex items-center justify-center bg-white text-black sticky top-0 z-10 shadow-md rounded-none lg:rounded-br-2xl">
+    <div className="flex flex-col lg:flex-row h-screen bg-gradient-to-b from-black via-zinc-900 to-black text-white overflow-hidden">
+      {/* Sidebar Heading */}
+      <div className="lg:w-1/4 w-full p-6 flex items-center justify-center bg-white text-black shadow-md rounded-none lg:rounded-br-2xl mt-25 md:mt-0">
         <h1 className="text-2xl sm:text-4xl font-bold text-center lg:text-left">
           Your Tribe Picks
         </h1>
       </div>
 
       {/* Cart Items */}
-      <div className="lg:w-2/4 w-full p-4 space-y-6 overflow-y-auto max-h-[70vh] lg:max-h-full md:mt-25">
+      <div className="lg:w-2/4 w-full overflow-y-auto h-full p-4 space-y-6 md:mt-25">
         {Object.entries(groupedByCategory).map(
           ([categoryId, servicesInCat]) => {
             const category = categories.find(
@@ -167,24 +163,29 @@ const handleCheckout = async () => {
       </div>
 
       {/* Summary Section */}
-      <div className="lg:w-1/4 w-full bg-white text-black p-5 shadow-md rounded-none lg:rounded-bl-2xl md:mt-25">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4">Order Summary</h2>
+      <div className="lg:w-1/4 w-full overflow-y-auto h-full bg-white text-black p-5 shadow-md rounded-none lg:rounded-bl-2xl md:mt-25">
+        <h2 className="text-xl sm:text-2xl font-bold border-b pb-2">
+          Order Summary
+        </h2>
 
-        <div className="mb-4 flex flex-row items-center justify-between">
-          <h3 className="font-semibold mb-1">Choose Address</h3>
-          <p className="text-gray-500">
+        {/* Address Selector */}
+        <div className="mb-4">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="font-semibold">Choose Address</h3>
+            <button
+              onClick={() => setShowAddress(!showAddress)}
+              className="bg-black text-white p-3 rounded-2xl text-sm"
+            >
+              Edit
+            </button>
+          </div>
+          <p className="text-gray-600 text-sm">
             {selectedAddress
-              ? `${selectedAddress.street},${selectedAddress.city},${selectedAddress.state},${selectedAddress.country}`
+              ? `${selectedAddress.street}, ${selectedAddress.city}, ${selectedAddress.state}, ${selectedAddress.country}`
               : "No address found"}
           </p>
-          <button
-            onClick={() => setShowAddress(!showAddress)}
-            className="bg-black text-white p-3 rounded-2xl text-sm"
-          >
-            Edit
-          </button>
           {showAddress && (
-            <div className="relative top-12 py-1 bg-white border border-gray-300 text-sm w-full">
+            <div className="relative top-2 py-1 bg-white border border-gray-300 text-sm w-full rounded-md shadow-sm mt-2">
               {address.map((address, index) => (
                 <p
                   key={index}
@@ -192,7 +193,7 @@ const handleCheckout = async () => {
                     setSelectedAddress(address);
                     setShowAddress(false);
                   }}
-                  className="text-gray-500 p-2 hover:bg-gray-100"
+                  className="text-gray-700 p-2 hover:bg-gray-100 cursor-pointer border-b"
                 >
                   {address.street}, {address.city}, {address.state},{" "}
                   {address.country}
@@ -200,7 +201,7 @@ const handleCheckout = async () => {
               ))}
               <p
                 onClick={() => navigate("/address")}
-                className="text-primary text-center cursor-pointer p-2 hover:bg-primary/10"
+                className="text-black text-center cursor-pointer p-2 hover:bg-primary/10"
               >
                 Add address
               </p>
@@ -208,39 +209,71 @@ const handleCheckout = async () => {
           )}
         </div>
 
-        <div className="mb-6 flex flex-row items-center justify-between">
-          <h3 className="font-semibold mb-1">Slot</h3>
-          <button
-            onClick={() => setShowSelectSlot(true)}
-            className="bg-black text-white p-3 rounded-2xl text-sm"
-          >
-            Edit
-          </button>
-          {Object.entries(serviceDate).map(([date], idx) => {
-            return <p key={idx}>{serviceDate[date]}</p>;
-          })}
-          <p>{serviceTime}</p>
+        {/* Slot Selector */}
+        <div className="mb-4">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="font-semibold">Slot</h3>
+            <button
+              onClick={() => setShowSelectSlot(true)}
+              className="bg-black text-white p-3 rounded-2xl text-sm"
+            >
+              Edit
+            </button>
+          </div>
+          <div className="text-sm text-gray-800 flex flex-row justify-between items-center">
+            {Object.entries(serviceDate).map(([key, value], idx) => (
+              <p key={idx}>{value}</p>
+            ))}
+            <p>{serviceTime}</p>
+          </div>
         </div>
 
-        <div className="space-y-2 text-sm">
-          <p>
-            Total Items: <span className="font-semibold">{getCartCount()}</span>
-          </p>
-          <p>Subtotal: ₹{subtotal}</p>
-          <p>GST: ₹{gst}</p>
-          <p>Discount: ₹{discountSaved} </p>
-          <p className="font-bold">Total Amount: ₹{total}</p>
+        {/* Price Summary */}
+        <div className="space-y-2 text-sm border-t border-b py-3">
+          <div className="flex justify-between">
+            <span>Total Items:</span>
+            <span className="font-semibold">{getCartCount()}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Subtotal:</span>
+            <span>₹{subtotal}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>GST:</span>
+            <span>₹{gst}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Discount:</span>
+            <span>- ₹{discountSaved}</span>
+          </div>
+          <div className="flex justify-between font-bold text-base pt-2">
+            <span>Total Amount:</span>
+            <span>₹{total}</span>
+          </div>
         </div>
-        <select
-          name="payment"
-          id="payment"
-          onChange={(e) => setPaymentMode(e.target.value)}
+
+        {/* Payment Mode */}
+        <div className="flex flex-col gap-2 text-sm mt-4">
+          <label htmlFor="payment" className="font-semibold">
+            Payment Mode
+          </label>
+          <select
+            name="payment"
+            id="payment"
+            onChange={(e) => setPaymentMode(e.target.value)}
+            className="border border-gray-300 p-2 rounded-md text-sm bg-white"
+          >
+            <option value="Cash">Cash</option>
+            <option value="Online">Online (UPI/Debit/Credit)</option>
+          </select>
+        </div>
+
+        {/* Checkout Button */}
+        <button
+          onClick={handleCheckout}
+          className="w-full bg-black text-white py-3 rounded-xl text-sm font-semibold hover:bg-gray-900 mt-4"
         >
-          <option value="Cash">Cash</option>
-          <option value="Online">Online(UPI/Debit/Credit)</option>
-        </select>
-        <button onClick={handleCheckout}>
-          {paymentMode === "Cash" ? "Place Order" : " Proceed To Payment"}
+          {paymentMode === "Cash" ? "Place Order" : "Proceed To Payment"}
         </button>
       </div>
     </div>

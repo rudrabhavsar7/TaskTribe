@@ -1,8 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Facebook, Instagram, Twitter, SendHorizontal } from "lucide-react";
+import { useAppContext } from "../context/AppContext.jsx";
 import { images } from "../assets/assets";
 
 const Footer = () => {
+
+  const { toast } = useAppContext();
+  const [newsletter,setNewsletter] = useState(''); 
+  const [subscribe,setSubscribe] = useState('Subscribe');
+
+  const handleChange = (e)=>{
+    setNewsletter(e.target.value);
+  }
+
+  const handleSubcribe = ()=>{
+    if(newsletter){
+      setSubscribe(<div className="flex items-center justify-center w-full">
+        <img className="h-8 w-8 items-center transition ease-in-out duration-1000" src={images.notification} alt="" />
+        </div>
+      );
+      setTimeout(()=>{
+        toast.success("Subscribed Successfully");
+        setSubscribe("Subscribed");
+      },2000)
+      setTimeout(()=>{
+        setSubscribe("Subscribe");
+      },5000)
+    }
+    else{
+      toast.error("Enter Valid Email");
+    }
+
+  }
   return (
     <div className="w-auto text-black bg-primary px-6 py-10 rounded-2xl -translate-y-4 mx-4 flex flex-col items-center gap-10">
       
@@ -26,10 +55,10 @@ const Footer = () => {
           <div className="flex w-full gap-2">
             <input
               className="flex-grow p-2 border rounded-xl text-white"
-              type="text"
+              type="email"
               placeholder="Enter Your Email"
             />
-            <button className="p-2 bg-white text-black rounded-xl">
+            <button className="p-2 bg-white text-black rounded-xl cursor-pointer">
               <SendHorizontal />
             </button>
           </div>
@@ -64,11 +93,13 @@ const Footer = () => {
           <div className="flex flex-col w-full gap-3">
             <input
               className="flex-grow p-2 border rounded-xl text-white"
-              type="text"
+              type="email"
               placeholder="Enter Your Email"
+              value={newsletter}
+              onChange={handleChange}
             />
-            <button className="p-2 bg-white text-black rounded-xl">
-              Subscribe
+            <button onClick={handleSubcribe} className="p-2 bg-white text-black rounded-xl">
+              {subscribe}
             </button>
           </div>
         </div>
