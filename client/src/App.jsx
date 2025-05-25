@@ -15,7 +15,7 @@ import AddServices from "./pages/seller/AddServices";
 import Cart from "./pages/Cart";
 import ServiceSlot from "./components/ServiceSlot";
 import AddAddress from "./components/AddAddress";
-import Order from "./pages/order";
+import Order from "./pages/Order";
 import AdminOrders from "./pages/seller/AdminOrders";
 
 function App() {
