@@ -13,20 +13,26 @@ import SellerLayout from "./pages/seller/SellerLayout";
 import AddSubCategory from "./pages/seller/AddSubCategory";
 import AddServices from "./pages/seller/AddServices";
 import Cart from "./pages/Cart";
+import ServiceSlot from "./components/ServiceSlot";
+import AddAddress from "./components/AddAddress";
+import Order from "./pages/order";
 
 function App() {
 
   const isSellerPath = useLocation().pathname.includes('seller');
-  const {showUserLogin,isSeller} = useAppContext();
-  
+  const {showUserLogin,isSeller,setShowSelectSlot,showSelectSlot,ShowAddress,setShowAddress,address,setAddress} = useAppContext();
+
   return (
     <>
     <Toaster/>
       {!isSellerPath && <Navbar />}
       {showUserLogin ? <Login/>:null}
+      {showSelectSlot ? <ServiceSlot /> : null}
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/address" element={<AddAddress />} />
+        <Route path="/order" element={<Order />} />
         <Route path="/:categoryName" element={<CategoryPage />} />
         <Route path="/seller" element={isSeller ? <SellerLayout/> : <SellerLogin/>}>
           <Route index element={isSeller ? <AddCategory/>:null}/>

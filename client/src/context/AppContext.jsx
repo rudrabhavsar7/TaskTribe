@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, use } from "reac
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import { addMinutes, format, addDays, set} from 'date-fns';
 
 // Create context
 const AppContext = createContext();
@@ -12,10 +13,13 @@ export const AppContextProvider = ({ children }) => {
   const [isSeller, setIsSeller] = useState(false);
   const [state, setState] = useState("login");
   const [showUserLogin, setShowUserLogin] = useState(false);
+  const [showSelectSlot, setShowSelectSlot] = useState(false);
   const [cartItems, setCartItems] = useState({});
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubCategories] = useState([]);
   const [services, setServices] = useState([]);
+  const [serviceDate,setServiceDate] =useState([]);
+  const [serviceTime,setServiceTime] =useState([]);
   const navigate = useNavigate();
 
   //add product to cart
@@ -25,6 +29,8 @@ export const AppContextProvider = ({ children }) => {
     setShowUserLogin(true);
     return;
   }
+  const service = services.find((s) => s.serviceId === serviceId);
+  console.log(service._id)
 
   setCartItems((prevCart) => {
     const currentItem = prevCart?.[serviceId];
@@ -39,7 +45,8 @@ export const AppContextProvider = ({ children }) => {
       : {
           ...prevCart,
           [serviceId]: {
-            serviceId,
+            serviceId : service._id,
+            serviceName : service.title,
             quantity: 1,
           },
         };
@@ -91,22 +98,72 @@ export const AppContextProvider = ({ children }) => {
   const getCartCount = () => {
     let count = 0;
     for (const items in cartItems) {
-      count += cartItems[items];
+      count += cartItems[items].quantity;
     }
     return count;
   };
 
   //get cart total price
-  const getCartAmount = () => {
-    let totalPrice = 0;
-    for (const items in cartItems) {
-      let product = products.find((item) => item._id === items);
-      if (cartItems[items] > 0 && product) {
-        totalPrice += product.offerPrice * cartItems[items];
-      }
+const getCartAmount = () => {
+  let totalPrice = 0;
+
+  for (const serviceId in cartItems) {
+    const service = services.find((item) => item.serviceId === serviceId);
+    const quantity = cartItems[serviceId].quantity;
+
+    if (quantity > 0 && service) {
+      totalPrice += service.offerPrice * quantity;
     }
-    return Math.floor(totalPrice * 100) / 100;
+  }
+
+  return Math.floor(totalPrice);
+};
+
+const getCartDiscountSaved = () => {
+  let discountSaved = 0;
+
+  for (const serviceId in cartItems) {
+    const service = services.find((item) => item.serviceId === serviceId);
+    const quantity = cartItems[serviceId].quantity;
+
+    if (quantity > 0 && service) {
+      const discountPerItem = service.price - service.offerPrice;
+      discountSaved += discountPerItem * quantity;
+    }
+  }
+
+  return Math.floor(discountSaved);
+};
+
+
+const getCartSummary = () => {
+  const GST_RATE = 0.18;
+  let subtotal = 0;
+  let discountSaved = 0;
+
+  for (const serviceId in cartItems) {
+    const service = services.find((item) => item.serviceId === serviceId);
+    const quantity = cartItems[serviceId].quantity;
+
+    if (quantity > 0 && service) {
+      const itemSubtotal = service.offerPrice * quantity;
+      const itemDiscount = (service.price - service.offerPrice) * quantity;
+
+      subtotal += itemSubtotal;
+      discountSaved += itemDiscount;
+    }
+  }
+
+  const gst = subtotal * GST_RATE;
+  const total = subtotal + gst;
+
+  return {
+    subtotal: Math.floor(subtotal),
+    gst: Math.floor(gst),
+    total: Math.floor(total),
+    discountSaved: Math.floor(discountSaved),
   };
+};
 
   const fetchUser = async () => {
     try {
@@ -223,7 +280,27 @@ export const AppContextProvider = ({ children }) => {
     fetchAllService();
   }, []);
 
+  const getDates= () =>{
+    const today = new Date();
+    const dates = [];
+    const days = []
+    for (let i = 0; i < 7; i++) {
+      const date = format(addDays(today, i), "dd-MM-yy");
+      const day = format(addDays(today, i), "EEE");
+      dates.push(date);
+      days.push(day);
+    }
+    return { dates, days };
+  };
 
+  const getTimes = () => {
+    const time = new Date(0, 0, 0, 9, 0);
+    const times = [];
+    for (let i = 0; i < 19; i++) {
+      times.push(format(addMinutes(time, i * 30), "hh:mm"));
+    }
+    return times;
+  };
   return (
     <AppContext.Provider
       value={{
@@ -254,6 +331,16 @@ export const AppContextProvider = ({ children }) => {
         cartItems,
         getCartCount,
         getCartAmount,
+        getCartDiscountSaved,
+        getCartSummary,
+        setShowSelectSlot,
+        showSelectSlot,
+        getDates,
+        getTimes,
+        serviceDate,
+        serviceTime,
+        setServiceDate,
+        setServiceTime
       }}
     >
       {children}

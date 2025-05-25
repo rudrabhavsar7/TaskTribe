@@ -39,16 +39,8 @@ const Navbar = () => {
     { name: "Order", icon: <ClipboardList />, path: "/order" },
     { name: "Cart", icon: <ShoppingCart />, path: "/cart" },
   ];
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const logout = async () => {
     try {
@@ -136,7 +128,7 @@ const Navbar = () => {
       <div className="flex items-center gap-3 md:hidden">
         <svg
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className={`h-6 w-6 cursor-pointer ${isScrolled ? "invert" : ""}`}
+          className={`h-6 w-6 cursor-pointer`}
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
