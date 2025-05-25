@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAppContext } from "../../context/AppContext";
 
 const AddCategory = () => {
-  const { axios, categories } = useAppContext();
+  const { axios, categories, BACKEND_URL } = useAppContext();
   const [formData, setFormData] = useState({
     categoryId: "",
     name: "",
@@ -35,7 +35,7 @@ const AddCategory = () => {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/seller/category`,
+        `${BACKEND_URL}/api/seller/category`,
         data,
         {
           headers: { "Content-Type": "multipart/form-data" },

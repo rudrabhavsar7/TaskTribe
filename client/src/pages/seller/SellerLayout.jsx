@@ -4,11 +4,11 @@ import { images } from "../../assets/assets";
 import { Link, NavLink, Outlet } from "react-router-dom";
 
 const SellerLayout = () => {
-  const { setIsSeller, toast, axios, navigate } = useAppContext();
+  const { setIsSeller, toast, axios, navigate, BACKEND_URL } = useAppContext();
   const logout = async () => {
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/seller/logout`
+        `${BACKEND_URL}/api/seller/logout`
       );
 
       if (data.success) {

@@ -3,7 +3,7 @@ import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
 
 const AddSubCategory = () => {
-  const { axios, subcategories } = useAppContext();
+  const { axios, subcategories, BACKEND_URL } = useAppContext();
 
   const [formData, setFormData] = useState({
     subcategoryId: "",
@@ -43,7 +43,7 @@ const AddSubCategory = () => {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/seller/subcategory`,
+        `${BACKEND_URL}/api/seller/subcategory`,
         data,
         {
           headers: { "Content-Type": "multipart/form-data" },

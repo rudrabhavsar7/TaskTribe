@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const SellerLogin = () => {
 
-    const {showUserLogin,setShowUserLogin,isSeller,setIsSeller,setState,state,axios,toast,navigate,fetchSellerStatus} = useAppContext();
+    const {showUserLogin,setShowUserLogin,isSeller,setIsSeller,setState,state,axios,toast,navigate,fetchSellerStatus, BACKEND_URL} = useAppContext();
 
     const [formData,setFormData] = useState({
       name:'',
@@ -25,7 +25,7 @@ const SellerLogin = () => {
         const payload = state === "login"
           ? { email: formData.email, password: formData.password }
           : formData;
-        const {data} = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/seller/${state}`,payload)
+        const {data} = await axios.post(`${BACKEND_URL}/api/seller/${state}`,payload)
 
         if (data.success) {
           setIsSeller(data.user);

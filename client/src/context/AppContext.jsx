@@ -23,6 +23,8 @@ export const AppContextProvider = ({ children }) => {
   const [serviceTime,setServiceTime] =useState([]);
   const navigate = useNavigate();
 
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL ;
+
   //add product to cart
   const addToCart = (serviceId) => {
   if (!user) {
@@ -169,7 +171,7 @@ const getCartSummary = () => {
   const fetchUser = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/user/is-auth`,
+        `${BACKEND_URL}/api/user/is-auth`,
         {
           withCredentials: true,
         }
@@ -191,7 +193,7 @@ const getCartSummary = () => {
   const fetchSellerStatus = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/seller/is-auth`
+        `${BACKEND_URL}/api/seller/is-auth`
       );
       if (data.success) {
         setIsSeller(true);
@@ -206,7 +208,7 @@ const getCartSummary = () => {
   const fetchCategories = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/seller/allcategory`
+        `${BACKEND_URL}/api/seller/allcategory`
       );
       if (data.success) {
         setCategories(data.categories);
@@ -222,7 +224,7 @@ const getCartSummary = () => {
   const fetchSubCategories = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/seller/allsubcategory`
+        `${BACKEND_URL}/api/seller/allsubcategory`
       );
       if (data.success) {
         setSubCategories(data.subcategories);
@@ -238,7 +240,7 @@ const getCartSummary = () => {
   const fetchAllService = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/api/seller/allservice`
+        `${BACKEND_URL}/api/seller/allservice`
       );
       if (data.success) {
         setServices(data.services);
@@ -254,7 +256,7 @@ const getCartSummary = () => {
   const fetchServicesBySubcategoryId = async (subcategoryId) => {
   try {
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/api/seller/services?subcategoryId=${subcategoryId}`
+      `${BACKEND_URL}/api/seller/services?subcategoryId=${subcategoryId}`
     );
     if (data.success) {
       setCatServices(data.services);
@@ -273,7 +275,7 @@ const getCartSummary = () => {
       return;
     }
     try {
-      const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/user/cart`, {
+      const { data } = await axios.post(`${BACKEND_URL}/api/user/cart`, {
         userId: user._id,
         cartItems: updatedCart,
       });
@@ -360,7 +362,8 @@ const getCartSummary = () => {
         setServiceTime,
         fetchServicesBySubcategoryId,
         setCatServices,
-        catServices
+        catServices,
+        BACKEND_URL
       }}
     >
       {children}

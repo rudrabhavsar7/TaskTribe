@@ -16,7 +16,7 @@ const InputField = ({ type, placeholder, name, handleChange, address }) => (
 );
 
 const AddAddress = () => {
-  const { axios, toast, user, navigate } = useAppContext();
+  const { axios, toast, user, navigate, BACKEND_URL } = useAppContext();
 
   const [address, setAddress] = useState({
     firstName: "",
@@ -41,7 +41,7 @@ const AddAddress = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try{
-        const {data} = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/address/add`,{
+        const {data} = await axios.post(`${BACKEND_URL}/api/address/add`,{
             userId: user._id,
             address
         });

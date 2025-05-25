@@ -5,7 +5,7 @@ import Cart from "../pages/Cart";
 
 const Login = () => {
 
-    const {showUserLogin,setShowUserLogin,user,setUser,setState,state,axios,toast,navigate,fetchUser,cartItems} = useAppContext();
+    const {showUserLogin,setShowUserLogin,user,setUser,setState,state,axios,toast,navigate,fetchUser,cartItems, BACKEND_URL} = useAppContext();
 
     const [formData,setFormData] = useState({
       name:'',
@@ -27,7 +27,7 @@ const Login = () => {
         const payload = state === "login"
           ? { email: formData.email, password: formData.password, cartItems: cartItems}
           : formData;
-        const {data} = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/user/${state}`,payload)
+        const {data} = await axios.post(`${BACKEND_URL}/api/user/${state}`,payload)
 
         if (data.success) {
           setUser(data.user);

@@ -34,7 +34,7 @@ const Navbar = () => {
   //     }
   //   }
 
-  const { user,setUser, navigate, setShowUserLogin ,axios,toast} = useAppContext();
+  const { user,setUser, navigate, setShowUserLogin ,axios,toast, BACKEND_URL} = useAppContext();
   const navLinks = [
     { name: "Order", icon: <ClipboardList />, path: "/order" },
     { name: "Cart", icon: <ShoppingCart />, path: "/cart" },
@@ -44,7 +44,7 @@ const Navbar = () => {
 
   const logout = async () => {
     try {
-      const {data} = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/user/logout`);
+      const {data} = await axios.post(`${BACKEND_URL}/api/user/logout`);
 
       if(data.success){
         setUser(null);

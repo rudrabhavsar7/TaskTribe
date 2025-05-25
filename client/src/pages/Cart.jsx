@@ -18,6 +18,7 @@ const Cart = () => {
     serviceDate,
     serviceTime,
     setCartItems,
+    BACKEND_URL
   } = useAppContext();
 
   const [address, setAddress] = useState([]);
@@ -27,7 +28,7 @@ const Cart = () => {
 
   const getUserAddress = async () => {
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/address/get`);
+      const { data } = await axios.get(`${BACKEND_URL}/api/address/get`);
       if (data.success) {
         setAddress(data.addresses);
         setSelectedAddress(data.addresses[0]);
@@ -75,7 +76,7 @@ const Cart = () => {
         }));
 
         const { data } = await axios.post(
-          `${process.env.REACT_APP_BACKEND_URL}/api/order/cash`,
+          `${BACKEND_URL}/api/order/cash`,
           {
             userId: user._id,
             items,

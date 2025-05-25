@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
 
 const AdminOrders = () => {
-  const { axios, toast } = useAppContext();
+  const { axios, toast, BACKEND_URL } = useAppContext();
   const [orders, setOrders] = useState([]);
 
   const fetchOrders = async () => {
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/order/admin`);
+      const { data } = await axios.get(`${BACKEND_URL}/api/order/admin`);
       if (data.success) {
         setOrders(data.orders);
       } else {
@@ -21,7 +21,7 @@ const AdminOrders = () => {
   const updateStatus = async (orderId, newStatus) => {
     try {
       const { data } = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}/api/order/admin/${orderId}/status`,
+        `${BACKEND_URL}/api/order/admin/${orderId}/status`,
         { status: newStatus }
       );
       if (data.success) {
