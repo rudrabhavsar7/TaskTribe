@@ -41,7 +41,7 @@ const AddAddress = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try{
-        const {data} = await axios.post('http://localhost:4000/api/address/add',{
+        const {data} = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/address/add`,{
             userId: user._id,
             address
         });

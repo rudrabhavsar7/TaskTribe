@@ -7,7 +7,7 @@ const AdminOrders = () => {
 
   const fetchOrders = async () => {
     try {
-      const { data } = await axios.get("http://localhost:4000/api/order/admin");
+      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/order/admin`);
       if (data.success) {
         setOrders(data.orders);
       } else {
@@ -21,7 +21,7 @@ const AdminOrders = () => {
   const updateStatus = async (orderId, newStatus) => {
     try {
       const { data } = await axios.put(
-        `http://localhost:4000/api/order/admin/${orderId}/status`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/order/admin/${orderId}/status`,
         { status: newStatus }
       );
       if (data.success) {

@@ -44,7 +44,7 @@ const Navbar = () => {
 
   const logout = async () => {
     try {
-      const {data} = await axios.post('http://localhost:4000/api/user/logout');
+      const {data} = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/user/logout`);
 
       if(data.success){
         setUser(null);

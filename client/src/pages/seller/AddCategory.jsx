@@ -35,7 +35,7 @@ const AddCategory = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:4000/api/seller/category",
+        `${process.env.REACT_APP_BACKEND_URL}/api/seller/category`,
         data,
         {
           headers: { "Content-Type": "multipart/form-data" },

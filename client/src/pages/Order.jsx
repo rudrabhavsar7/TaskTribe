@@ -9,7 +9,7 @@ const Order = () => {
   const getOrders = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/order/user/${user._id}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/order/user/${user._id}`
       );
       if (data.success) {
         setOrders(data.orders);

@@ -27,7 +27,7 @@ const Cart = () => {
 
   const getUserAddress = async () => {
     try {
-      const { data } = await axios.get("http://localhost:4000/api/address/get");
+      const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/address/get`);
       if (data.success) {
         setAddress(data.addresses);
         setSelectedAddress(data.addresses[0]);
@@ -75,7 +75,7 @@ const Cart = () => {
         }));
 
         const { data } = await axios.post(
-          "http://localhost:4000/api/order/cash",
+          `${process.env.REACT_APP_BACKEND_URL}/api/order/cash`,
           {
             userId: user._id,
             items,

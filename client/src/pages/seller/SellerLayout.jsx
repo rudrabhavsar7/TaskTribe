@@ -8,7 +8,7 @@ const SellerLayout = () => {
   const logout = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/seller/logout"
+        `${process.env.REACT_APP_BACKEND_URL}/api/seller/logout`
       );
 
       if (data.success) {

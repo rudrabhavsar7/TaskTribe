@@ -169,7 +169,7 @@ const getCartSummary = () => {
   const fetchUser = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:4000/api/user/is-auth",
+        `${process.env.REACT_APP_BACKEND_URL}/api/user/is-auth`,
         {
           withCredentials: true,
         }
@@ -191,7 +191,7 @@ const getCartSummary = () => {
   const fetchSellerStatus = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:4000/api/seller/is-auth"
+        `${process.env.REACT_APP_BACKEND_URL}/api/seller/is-auth`
       );
       if (data.success) {
         setIsSeller(true);
@@ -206,7 +206,7 @@ const getCartSummary = () => {
   const fetchCategories = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:4000/api/seller/allcategory"
+        `${process.env.REACT_APP_BACKEND_URL}/api/seller/allcategory`
       );
       if (data.success) {
         setCategories(data.categories);
@@ -222,7 +222,7 @@ const getCartSummary = () => {
   const fetchSubCategories = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:4000/api/seller/allsubcategory"
+        `${process.env.REACT_APP_BACKEND_URL}/api/seller/allsubcategory`
       );
       if (data.success) {
         setSubCategories(data.subcategories);
@@ -238,7 +238,7 @@ const getCartSummary = () => {
   const fetchAllService = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:4000/api/seller/allservice"
+        `${process.env.REACT_APP_BACKEND_URL}/api/seller/allservice`
       );
       if (data.success) {
         setServices(data.services);
@@ -254,7 +254,7 @@ const getCartSummary = () => {
   const fetchServicesBySubcategoryId = async (subcategoryId) => {
   try {
     const { data } = await axios.get(
-      `http://localhost:4000/api/seller/services?subcategoryId=${subcategoryId}`
+      `${process.env.REACT_APP_BACKEND_URL}/api/seller/services?subcategoryId=${subcategoryId}`
     );
     if (data.success) {
       setCatServices(data.services);
@@ -273,7 +273,7 @@ const getCartSummary = () => {
       return;
     }
     try {
-      const { data } = await axios.post("http://localhost:4000/api/user/cart", {
+      const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/user/cart`, {
         userId: user._id,
         cartItems: updatedCart,
       });

@@ -42,7 +42,7 @@ const AddService = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4000/api/seller/service", formData);
+      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/seller/service`, formData);
       toast.success("Service added successfully");
       console.log("Success:", res.data);
     } catch (err) {

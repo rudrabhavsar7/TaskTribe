@@ -25,7 +25,7 @@ const SellerLogin = () => {
         const payload = state === "login"
           ? { email: formData.email, password: formData.password }
           : formData;
-        const {data} = await axios.post(`http://localhost:4000/api/seller/${state}`,payload)
+        const {data} = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/seller/${state}`,payload)
 
         if (data.success) {
           setIsSeller(data.user);

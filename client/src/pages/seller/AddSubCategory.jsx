@@ -43,7 +43,7 @@ const AddSubCategory = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:4000/api/seller/subcategory",
+        `${process.env.REACT_APP_BACKEND_URL}/api/seller/subcategory`,
         data,
         {
           headers: { "Content-Type": "multipart/form-data" },
