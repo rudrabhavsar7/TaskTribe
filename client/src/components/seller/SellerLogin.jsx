@@ -80,9 +80,6 @@ const SellerLogin = () => {
         />
         
         <div className="text-right py-4">
-          <span className="text-secondary underline cursor-pointer" >
-            Forgot Password
-          </span>
         </div>
         {
             state === 'login' ? (
