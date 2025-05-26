@@ -3,13 +3,16 @@ import { useAppContext } from "../context/AppContext";
 
 const Order = () => {
   const [orders, setOrders] = useState([]);
-  const { axios, toast, user } = useAppContext();
+  const { axios, toast, user ,BACKEND_URL} = useAppContext();
   const [filterStatus, setFilterStatus] = useState("All");
 
   const getOrders = async () => {
+
     try {
       const { data } = await axios.get(
-        `${BACKEND_URL}/api/order/user/${user._id}`
+        `${BACKEND_URL}/api/order/user/${user._id}`,{
+          withCredentials:true
+        }
       );
       if (data.success) {
         setOrders(data.orders);
