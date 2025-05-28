@@ -46,7 +46,6 @@ const Login = () => {
           if(state === 'register'){
             toast.success("User Created");
           }else{
-
             toast.success("Logged In");
           }
         navigate("/");

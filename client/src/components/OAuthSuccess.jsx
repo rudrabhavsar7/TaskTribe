@@ -10,6 +10,7 @@ const OAuthSuccess = () => {
 
     if (token) {
       setUser(token);
+      fetchUser();
       toast.success("Logged in with Google");
       navigate("/");
     } else {
