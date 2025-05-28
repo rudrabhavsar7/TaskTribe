@@ -18,7 +18,13 @@ userRoutes.post('/cart',authUser,updatecart);
 userRoutes.get('/oauth/google',passport.authenticate('google',{scope:['profile','email']}));
 userRoutes.get('/oauth/google/callback',passport.authenticate('google',{failureRedirect:'/login',session:false}),(req,res)=>{
     const token = req.user.token;
-    res.redirect(`${process.env.FRONTEND_URL}/oauth-success?token=${token}`);
+    res.cookie('token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    sameSite: 'lax'
+  });
+    res.redirect(`${process.env.FRONTEND_URL}/oauth-success`);
 }
 )
 
