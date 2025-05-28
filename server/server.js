@@ -7,6 +7,9 @@ import userRoutes from "./routes/userRoutes.js";
 import sellerRoutes from "./routes/sellerRoutes.js";
 import addressRouter from "./routes/addressRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
+import passport from 'passport';
+import './config/passport.js'; 
+
 
 dotenv.config();
 const app = express();
@@ -29,6 +32,7 @@ app.use(cors({
 
 // Routes
 // app.use('/',()=>console.log("Api is working"));
+app.use(passport.initialize());
 app.use("/api/user", userRoutes);
 app.use("/api/seller", sellerRoutes);
 app.use('/api/address',addressRouter);

@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import logo from "../assets/images/logo.png";
 import cleaning from "../assets/images/cleaning/vaccumcleaner.png";
 import electic from "../assets/images/electric/electrician.png";
@@ -23,7 +21,8 @@ import menmassage from '../assets/images/menscroll/massage.jpg';
 import womenfacial from '../assets/images/womenscroll/facial.jpg';
 import womenhaircut from '../assets/images/womenscroll/haircut.jpg';
 import womenmassage from '../assets/images/womenscroll/massage.jpg';
-import notification from '../assets/images/subscribe/notification.gif'
+import notification from '../assets/images/subscribe/notification.gif';
+import google from '../assets/images/google.png';
 
 export const images = {
   logo,
@@ -40,7 +39,8 @@ export const images = {
   womenfacial,
   womenhaircut,
   womenmassage,
-  notification 
+  notification,
+  google
 };
 
 export let category = [

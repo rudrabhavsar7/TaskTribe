@@ -16,7 +16,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${process.env.BACKEND_URL}/api/auth/oauth/google`,
+      callbackURL: `${process.env.BACKEND_URL}/api/user/oauth/google/callback`,
     },
 
     async (accessToken, refreshToken, profile, done) => {
@@ -31,8 +31,14 @@ passport.use(
           });
         }
 
-        const token = jwt.sign({})
-      } catch (error) {}
+        const token = jwt.sign({userId:user._id},process.env.JWT_SECRET,{expiresIn:'7d'});
+
+        user.token = token;
+
+        return done(null,user);
+      } catch (error) {
+        return done(error,null);
+      }
     }
   )
 );
