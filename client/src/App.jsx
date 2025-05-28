@@ -17,6 +17,7 @@ import ServiceSlot from "./components/ServiceSlot";
 import AddAddress from "./components/AddAddress";
 import Order from "./pages/Order";
 import AdminOrders from "./pages/seller/AdminOrders";
+import OAuthSuccess from "./components/OAuthSuccess";
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
       {showSelectSlot ? <ServiceSlot /> : null}
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/oauth-success" element={<OAuthSuccess />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/address" element={<AddAddress />} />
         <Route path="/order" element={<Order />} />

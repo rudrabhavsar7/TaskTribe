@@ -1,6 +1,7 @@
 import React from "react";
 import { useAppContext } from "../context/AppContext";
 import { useState } from "react";
+import { images } from "../assets/assets";
 import Cart from "../pages/Cart";
 
 const Login = () => {
@@ -17,6 +18,15 @@ const Login = () => {
 
     const handleChange = (e)=>{
       setFormData({...formData,[e.target.name]:e.target.value});
+    }
+
+    const handleGoogleSubmit = async (e)=>{
+      e.preventDefault();
+      try {
+        window.location.href = `${BACKEND_URL}/api/user/oauth/google`;
+      } catch (error) {
+        toast.error("Error Occured");
+      }
     }
 
     const onSubmitHandler = async (e)=>{
@@ -92,6 +102,15 @@ const Login = () => {
                 >
                 Login
                 </button>
+                <button
+                className="w-full mb-3 bg-secondary hover:bg-secondary/90 active:scale-95 transition py-2.5 rounded-full text-white"
+                onClick={handleGoogleSubmit}
+                >
+                  <div className="flex flex-row justify-center items-center gap-2">
+                <img className="h-5 w-5" src={images.google} alt="google" />
+                Sign In With Google
+                  </div>
+                </button>
                 <p className="text-center mt-4">
                     Don't have a account?{" "}
                 <span onClick={()=>setState('register')}className="text-secondary underline cursor-pointer">
@@ -106,6 +125,15 @@ const Login = () => {
                 className="w-full mb-3 bg-secondary hover:bg-secondary/90 active:scale-95 transition py-2.5 rounded-full text-white"
                 >
                 Register
+                </button>
+                <button
+                className="w-full mb-3 bg-secondary hover:bg-secondary/90 active:scale-95 transition py-2.5 rounded-full text-white"
+                onClick={handleGoogleSubmit}
+                >
+                  <div className="flex flex-row justify-center items-center gap-2">
+                <img className="h-5 w-5" src={images.google} alt="google" />
+                Sign Up With Google
+                  </div>
                 </button>
                 <p className="text-center mt-4">
                     Already have a account?{" "}
