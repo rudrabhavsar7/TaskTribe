@@ -46,7 +46,7 @@ const Cart = () => {
 
   if (!cartItems || Object.keys(cartItems).length === 0) {
     return (
-      <div className="text-white text-center mt-10 text-2xl">
+      <div className="text-black flex justify-center items-center h-screen text-center text-2xl">
         <h1>Your cart is empty</h1>
       </div>
     );
