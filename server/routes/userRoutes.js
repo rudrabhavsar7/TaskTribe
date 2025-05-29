@@ -22,7 +22,7 @@ userRoutes.get('/oauth/google/callback',passport.authenticate('google',{failureR
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     maxAge: 7 * 24 * 60 * 60 * 1000,
-    sameSite: 'lax'
+    sameSite: 'None'
   });
     res.redirect(`${process.env.FRONTEND_URL}/oauth-success?token=${token}`);
 }

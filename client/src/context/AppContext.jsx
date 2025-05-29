@@ -33,7 +33,6 @@ export const AppContextProvider = ({ children }) => {
     return;
   }
   const service = services.find((s) => s.serviceId === serviceId);
-  console.log(service._id)
 
   setCartItems((prevCart) => {
     const currentItem = prevCart?.[serviceId];
@@ -212,7 +211,6 @@ const getCartSummary = () => {
       );
       if (data.success) {
         setCategories(data.categories);
-        console.log(data.categories); // Debug check
       } else {
         console.error("Failed to fetch categories");
       }
@@ -228,7 +226,6 @@ const getCartSummary = () => {
       );
       if (data.success) {
         setSubCategories(data.subcategories);
-        console.log(data.subcategories); // Debug check
       } else {
         console.error("Failed to fetch categories");
       }
@@ -244,7 +241,6 @@ const getCartSummary = () => {
       );
       if (data.success) {
         setServices(data.services);
-        console.log(data.services); // Debug check
       } else {
         console.error("Failed to fetch categories");
       }
@@ -260,7 +256,6 @@ const getCartSummary = () => {
     );
     if (data.success) {
       setCatServices(data.services);
-      console.log(data.services); // Debug check
     } else {
       console.error("Failed to fetch services by subcategory");
     }
@@ -282,7 +277,6 @@ const getCartSummary = () => {
 
       if (data.success) {
         setCartItems(data.cartItems);
-        console.log("Cart saved to DB:", data.cartItems);
       } else {
         console.error("Failed to update CartItems:", data.message);
       }

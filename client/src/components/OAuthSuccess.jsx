@@ -8,9 +8,6 @@ const OAuthSuccess = () => {
     const query = new URLSearchParams(window.location.search);
     const token = query.get("token");
 
-    console.log(query);
-    console.log(token);
-
     if (token) {
       fetchUser();
       toast.success("Logged in with Google");
